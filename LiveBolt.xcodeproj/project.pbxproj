@@ -7,23 +7,35 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7A7C19F31F951EAA005DADA9 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A7C19F21F951EAA005DADA9 /* SignUpViewController.swift */; };
+		7A7C19F51F9531ED005DADA9 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A7C19F41F9531ED005DADA9 /* LoginViewController.swift */; };
 		7ACF73581F93B07100EADA8E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ACF73571F93B07100EADA8E /* AppDelegate.swift */; };
-		7ACF735A1F93B07100EADA8E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ACF73591F93B07100EADA8E /* ViewController.swift */; };
+		7ACF735A1F93B07100EADA8E /* SplashScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ACF73591F93B07100EADA8E /* SplashScreenViewController.swift */; };
 		7ACF735D1F93B07100EADA8E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7ACF735B1F93B07100EADA8E /* Main.storyboard */; };
 		7ACF73601F93B07100EADA8E /* LiveBolt.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7ACF735E1F93B07100EADA8E /* LiveBolt.xcdatamodeld */; };
 		7ACF73621F93B07100EADA8E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7ACF73611F93B07100EADA8E /* Assets.xcassets */; };
 		7ACF73651F93B07100EADA8E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7ACF73631F93B07100EADA8E /* LaunchScreen.storyboard */; };
+		7ADBBAA11F9D134E004DA505 /* CreateHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ADBBAA01F9D134E004DA505 /* CreateHomeViewController.swift */; };
+		7ADBBAA71F9D23FE004DA505 /* lightning.png in Resources */ = {isa = PBXBuildFile; fileRef = 7ADBBAA61F9D23FE004DA505 /* lightning.png */; };
+		7ADBBAA91F9D2427004DA505 /* CheckLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ADBBAA81F9D2427004DA505 /* CheckLoginViewController.swift */; };
+		7ADBBAAB1F9D259F004DA505 /* HomeStatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ADBBAAA1F9D259F004DA505 /* HomeStatusViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7A7C19F21F951EAA005DADA9 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
+		7A7C19F41F9531ED005DADA9 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		7ACF73541F93B07100EADA8E /* LiveBolt.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LiveBolt.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7ACF73571F93B07100EADA8E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		7ACF73591F93B07100EADA8E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		7ACF73591F93B07100EADA8E /* SplashScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreenViewController.swift; sourceTree = "<group>"; };
 		7ACF735C1F93B07100EADA8E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		7ACF735F1F93B07100EADA8E /* LiveBolt.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = LiveBolt.xcdatamodel; sourceTree = "<group>"; };
 		7ACF73611F93B07100EADA8E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7ACF73641F93B07100EADA8E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7ACF73661F93B07100EADA8E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7ADBBAA01F9D134E004DA505 /* CreateHomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateHomeViewController.swift; sourceTree = "<group>"; };
+		7ADBBAA61F9D23FE004DA505 /* lightning.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lightning.png; sourceTree = "<group>"; };
+		7ADBBAA81F9D2427004DA505 /* CheckLoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckLoginViewController.swift; sourceTree = "<group>"; };
+		7ADBBAAA1F9D259F004DA505 /* HomeStatusViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeStatusViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,12 +69,18 @@
 			isa = PBXGroup;
 			children = (
 				7ACF73571F93B07100EADA8E /* AppDelegate.swift */,
-				7ACF73591F93B07100EADA8E /* ViewController.swift */,
+				7ACF73591F93B07100EADA8E /* SplashScreenViewController.swift */,
 				7ACF735B1F93B07100EADA8E /* Main.storyboard */,
 				7ACF73611F93B07100EADA8E /* Assets.xcassets */,
+				7ADBBAA61F9D23FE004DA505 /* lightning.png */,
 				7ACF73631F93B07100EADA8E /* LaunchScreen.storyboard */,
 				7ACF73661F93B07100EADA8E /* Info.plist */,
 				7ACF735E1F93B07100EADA8E /* LiveBolt.xcdatamodeld */,
+				7A7C19F21F951EAA005DADA9 /* SignUpViewController.swift */,
+				7A7C19F41F9531ED005DADA9 /* LoginViewController.swift */,
+				7ADBBAA01F9D134E004DA505 /* CreateHomeViewController.swift */,
+				7ADBBAA81F9D2427004DA505 /* CheckLoginViewController.swift */,
+				7ADBBAAA1F9D259F004DA505 /* HomeStatusViewController.swift */,
 			);
 			path = LiveBolt;
 			sourceTree = "<group>";
@@ -126,6 +144,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7ADBBAA71F9D23FE004DA505 /* lightning.png in Resources */,
 				7ACF73651F93B07100EADA8E /* LaunchScreen.storyboard in Resources */,
 				7ACF73621F93B07100EADA8E /* Assets.xcassets in Resources */,
 				7ACF735D1F93B07100EADA8E /* Main.storyboard in Resources */,
@@ -139,9 +158,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7A7C19F31F951EAA005DADA9 /* SignUpViewController.swift in Sources */,
 				7ACF73601F93B07100EADA8E /* LiveBolt.xcdatamodeld in Sources */,
-				7ACF735A1F93B07100EADA8E /* ViewController.swift in Sources */,
+				7ACF735A1F93B07100EADA8E /* SplashScreenViewController.swift in Sources */,
+				7ADBBAA11F9D134E004DA505 /* CreateHomeViewController.swift in Sources */,
+				7A7C19F51F9531ED005DADA9 /* LoginViewController.swift in Sources */,
+				7ADBBAAB1F9D259F004DA505 /* HomeStatusViewController.swift in Sources */,
 				7ACF73581F93B07100EADA8E /* AppDelegate.swift in Sources */,
+				7ADBBAA91F9D2427004DA505 /* CheckLoginViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
