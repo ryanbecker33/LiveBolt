@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7A0D4F2F1F9E6B7100E41FE6 /* HomeSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A0D4F2E1F9E6B7100E41FE6 /* HomeSettingsViewController.swift */; };
+		7A0D4F311F9FAFA600E41FE6 /* JoinHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A0D4F301F9FAFA600E41FE6 /* JoinHomeViewController.swift */; };
+		7A534D651FA69AE500B3945F /* ServerRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A534D641FA69AE500B3945F /* ServerRequest.swift */; };
+		7A67F1EC1FA1072600CAA6ED /* LoginNoHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A67F1EB1FA1072600CAA6ED /* LoginNoHomeViewController.swift */; };
 		7A7C19F31F951EAA005DADA9 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A7C19F21F951EAA005DADA9 /* SignUpViewController.swift */; };
 		7A7C19F51F9531ED005DADA9 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A7C19F41F9531ED005DADA9 /* LoginViewController.swift */; };
 		7ACF73581F93B07100EADA8E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ACF73571F93B07100EADA8E /* AppDelegate.swift */; };
@@ -22,6 +26,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7A0D4F2E1F9E6B7100E41FE6 /* HomeSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeSettingsViewController.swift; sourceTree = "<group>"; };
+		7A0D4F301F9FAFA600E41FE6 /* JoinHomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinHomeViewController.swift; sourceTree = "<group>"; };
+		7A534D641FA69AE500B3945F /* ServerRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerRequest.swift; sourceTree = "<group>"; };
+		7A67F1EB1FA1072600CAA6ED /* LoginNoHomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginNoHomeViewController.swift; sourceTree = "<group>"; };
 		7A7C19F21F951EAA005DADA9 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		7A7C19F41F9531ED005DADA9 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		7ACF73541F93B07100EADA8E /* LiveBolt.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LiveBolt.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -36,6 +44,7 @@
 		7ADBBAA61F9D23FE004DA505 /* lightning.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lightning.png; sourceTree = "<group>"; };
 		7ADBBAA81F9D2427004DA505 /* CheckLoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckLoginViewController.swift; sourceTree = "<group>"; };
 		7ADBBAAA1F9D259F004DA505 /* HomeStatusViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeStatusViewController.swift; sourceTree = "<group>"; };
+		7AEB7D651FA0FCE8004D298F /* AppIcon.appiconset */ = {isa = PBXFileReference; lastKnownFileType = folder; name = AppIcon.appiconset; path = ../../../../Desktop/ios/AppIcon.appiconset; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,6 +81,7 @@
 				7ACF73591F93B07100EADA8E /* SplashScreenViewController.swift */,
 				7ACF735B1F93B07100EADA8E /* Main.storyboard */,
 				7ACF73611F93B07100EADA8E /* Assets.xcassets */,
+				7AEB7D651FA0FCE8004D298F /* AppIcon.appiconset */,
 				7ADBBAA61F9D23FE004DA505 /* lightning.png */,
 				7ACF73631F93B07100EADA8E /* LaunchScreen.storyboard */,
 				7ACF73661F93B07100EADA8E /* Info.plist */,
@@ -81,6 +91,10 @@
 				7ADBBAA01F9D134E004DA505 /* CreateHomeViewController.swift */,
 				7ADBBAA81F9D2427004DA505 /* CheckLoginViewController.swift */,
 				7ADBBAAA1F9D259F004DA505 /* HomeStatusViewController.swift */,
+				7A0D4F2E1F9E6B7100E41FE6 /* HomeSettingsViewController.swift */,
+				7A0D4F301F9FAFA600E41FE6 /* JoinHomeViewController.swift */,
+				7A67F1EB1FA1072600CAA6ED /* LoginNoHomeViewController.swift */,
+				7A534D641FA69AE500B3945F /* ServerRequest.swift */,
 			);
 			path = LiveBolt;
 			sourceTree = "<group>";
@@ -159,10 +173,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				7A7C19F31F951EAA005DADA9 /* SignUpViewController.swift in Sources */,
+				7A67F1EC1FA1072600CAA6ED /* LoginNoHomeViewController.swift in Sources */,
 				7ACF73601F93B07100EADA8E /* LiveBolt.xcdatamodeld in Sources */,
 				7ACF735A1F93B07100EADA8E /* SplashScreenViewController.swift in Sources */,
 				7ADBBAA11F9D134E004DA505 /* CreateHomeViewController.swift in Sources */,
 				7A7C19F51F9531ED005DADA9 /* LoginViewController.swift in Sources */,
+				7A534D651FA69AE500B3945F /* ServerRequest.swift in Sources */,
+				7A0D4F311F9FAFA600E41FE6 /* JoinHomeViewController.swift in Sources */,
+				7A0D4F2F1F9E6B7100E41FE6 /* HomeSettingsViewController.swift in Sources */,
 				7ADBBAAB1F9D259F004DA505 /* HomeStatusViewController.swift in Sources */,
 				7ACF73581F93B07100EADA8E /* AppDelegate.swift in Sources */,
 				7ADBBAA91F9D2427004DA505 /* CheckLoginViewController.swift in Sources */,
@@ -303,6 +321,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 962T2Z29F2;
 				INFOPLIST_FILE = LiveBolt/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Becker.LiveBolt;
@@ -317,6 +336,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 962T2Z29F2;
 				INFOPLIST_FILE = LiveBolt/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Becker.LiveBolt;

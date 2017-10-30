@@ -15,8 +15,12 @@ class CheckLoginViewController: UIViewController {
         UserDefaults.standard.removePersistentDomain(forName: Bundle.main.bundleIdentifier!)
         UserDefaults.standard.synchronize()
         let defaults = UserDefaults.standard
-        if let email = defaults.string(forKey: "email") {
-            if let home = defaults.string(forKey: "homeName")
+        if defaults.string(forKey: "email") != nil {
+            let request = ServerRequest(type: "GET", endpoint: "/home/status", postString: nil)
+            let defaults = UserDefaults.standard
+            request.makeRequest(cookie: defaults.string(forKey: "cookie"))
+            
+            if(request.statusCode! == 200)
             {
                 DispatchQueue.main.async(){
                     self.performSegue(withIdentifier: "loginAndHome", sender: nil)

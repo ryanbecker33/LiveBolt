@@ -15,35 +15,51 @@ class SignUpViewController: UIViewController {
     @IBOutlet weak var passwordLabel: UILabel!
     @IBOutlet weak var reEnterPasswordLabel: UILabel!
     
+    @IBOutlet weak var firstNameTextField: UITextField!
+    @IBOutlet weak var lastNameTextField: UITextField!
+    @IBOutlet weak var warningLabel: UILabel!
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var confirmPasswordTextField: UITextField!
     @IBAction func createAccountButton(_ sender: Any) {
-        let url = URL(string: "https://livebolt.rats3g.net/account/register")!
-        var request = URLRequest(url: url)
-        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-        request.httpMethod = "POST"
-        let postString = "email=\(emailTextField.text!)&password=\(passwordTextField.text!)&confirmPassword=\(confirmPasswordTextField.text!)"
-        request.httpBody = postString.data(using: .utf8)
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            guard let data = data, error == nil else {                                                 // check for fundamental networking error
-                print("error=\(error!)")
-                return
-            }
-            
-            if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 200 {           // check for http errors
-                print("statusCode should be 200, but is \(httpStatus.statusCode)")
-                print("response = \(response!)")
-            }
-            
-            let responseString = String(data: data, encoding: .utf8)
-            print("responseString = \(responseString!)")
+        if(passwordTextField.text! != confirmPasswordTextField.text!)
+        {
+            self.warningLabel.text! = "Passwords do not match."
+            return
+        }
+        let postString = "firstName=\(firstNameTextField.text!)&lastName=\(lastNameTextField.text!)&email=\(emailTextField.text!)&password=\(passwordTextField.text!)&confirmPassword=\(confirmPasswordTextField.text!)"
+        let request = ServerRequest(type: "POST", endpoint: "/account/register", postString: postString)
+        request.makeRequest(cookie: nil)
+        
+        if(request.statusCode! == 200)
+        {
             DispatchQueue.main.async(){
                 self.performSegue(withIdentifier: "registerSucceed", sender: self)
             }
         }
-        task.resume()
-        
+        else
+        {
+            let jsonDecoder = JSONDecoder()
+            let status = try? jsonDecoder.decode(Status.self, from: request.data!)
+            DispatchQueue.main.async(execute: {
+                if status!.Password != nil
+                {
+                    self.warningLabel.text = status!.Password![0]
+                }
+                else if status!.ConfirmPassword != nil
+                {
+                    self.warningLabel.text = status!.ConfirmPassword![0]
+                }
+                else if status!.ErrorMessage != nil
+                {
+                    self.warningLabel.text = status!.ErrorMessage![0]
+                }
+                else
+                {
+                    self.warningLabel.text = "Bad"
+                }
+            })
+        }
     }
     
     override func viewDidLoad() {
@@ -72,5 +88,12 @@ class SignUpViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    
+    struct Status: Codable
+    {
+        var ErrorMessage: [String]?
+        var Password: [String]?
+        var ConfirmPassword: [String]?
+    }
 
 }

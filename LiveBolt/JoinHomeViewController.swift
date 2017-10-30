@@ -1,52 +1,44 @@
 //
-//  CreateHomeViewController.swift
+//  JoinHomeViewController.swift
 //  LiveBolt
 //
-//  Created by Ryan Becker on 10/22/17.
+//  Created by Ryan Becker on 10/24/17.
 //  Copyright © 2017 Becker. All rights reserved.
 //
 
 import UIKit
 
-class CreateHomeViewController: UIViewController {
+class JoinHomeViewController: UIViewController {
 
-    @IBOutlet weak var errorMessageLabel: UILabel!
-    @IBOutlet weak var homeNicknameTextField: UITextField!
+    @IBOutlet weak var warningLabel: UILabel!
     @IBOutlet weak var homeNameTextField: UITextField!
-    @IBOutlet weak var homePasswordTextField: UITextField!
-    @IBOutlet weak var homeConfirmPasswordTextField: UITextField!
-    @IBAction func createHomeButton(_ sender: Any) {
-        if(homePasswordTextField.text! != homeConfirmPasswordTextField.text!)
-        {
-            self.errorMessageLabel.text! = "Passwords do not match."
-            return
-        }
-        
-        let postString = "name=\(homeNameTextField.text!)&nickName=\(homeNicknameTextField.text!)&password=\(homePasswordTextField.text!)&confirmPassword=\(homeConfirmPasswordTextField.text!)"
-        let request = ServerRequest(type: "POST", endpoint: "/home/create", postString: postString)
-        let home = homeNameTextField.text!
-        let password = homePasswordTextField.text!
+    @IBOutlet weak var passwordTextField: UITextField!
+    @IBAction func joinHomeButton(_ sender: Any) {
+        let name = homeNameTextField.text!
+        let password = passwordTextField.text!
+        let postString = "name=\(name)&password=\(password)"
+        let request = ServerRequest(type: "POST", endpoint: "/home/join", postString: postString)
         let defaults = UserDefaults.standard
         request.makeRequest(cookie: defaults.string(forKey: "cookie"))
         
-        if(request.statusCode == 200)
+        if(request.statusCode! == 200)
         {
-            defaults.set(home, forKey: "homeName")
+            let defaults = UserDefaults.standard
+            defaults.set(name, forKey: "homeName")
             defaults.set(password, forKey: "homePassword")
-            DispatchQueue.main.async(){
-                self.performSegue(withIdentifier: "homeCreated", sender: self)
-            }
+            DispatchQueue.main.async(execute: {
+                self.performSegue(withIdentifier: "homeJoined", sender: nil)
+            })
         }
         else
         {
             let jsonDecoder = JSONDecoder()
             let status = try? jsonDecoder.decode(Status.self, from: request.data!)
             DispatchQueue.main.async(execute: {
-                self.errorMessageLabel.text = status!.ErrorMessage[0]
+                self.warningLabel.text = status!.ErrorMessage[0]
             })
         }
     }
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -69,9 +61,10 @@ class CreateHomeViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
-
+    
     struct Status: Codable
     {
         var ErrorMessage: [String]
     }
+
 }

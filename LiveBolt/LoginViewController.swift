@@ -14,38 +14,31 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBAction func loginButton(_ sender: Any) {
-        let url = URL(string: "https://livebolt.rats3g.net/account/login")!
-        var request = URLRequest(url: url)
-        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-        request.httpMethod = "POST"
         let email = emailTextField.text!
         let password = passwordTextField.text!
         let postString = "email=\(email)&password=\(password)"
-        request.httpBody = postString.data(using: .utf8)
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            guard let data = data, error == nil else {                                                 // check for fundamental networking error
-                print("error=\(error!)")
-                return
+        let request = ServerRequest(type: "POST", endpoint: "/account/login", postString: postString)
+        request.makeRequest(cookie: nil)
+        
+        if(request.statusCode! == 200)
+        {
+            let defaults = UserDefaults.standard
+            defaults.set(request.response!.allHeaderFields["Set-Cookie"]!, forKey: "cookie")
+            defaults.set(email, forKey: "email")
+            defaults.set(password, forKey: "password")
+            print(request.response!.allHeaderFields["Set-Cookie"]!)
+            if defaults.string(forKey: "homeName") != nil
+            {
+                DispatchQueue.main.async(){
+                    self.performSegue(withIdentifier: "homeExists", sender: nil)
+                }
             }
-            
-            if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 200 {           // check for http errors
-                print("statusCode should be 200, but is \(httpStatus.statusCode)")
-                print("response = \(response!)")
-                DispatchQueue.main.async(execute: {
-                    self.warningLabel.text = String(data: data, encoding: .utf8)
-                })
-            }
-            
-            let responseString = String(data: data, encoding: .utf8)
-            print("responseString = \(responseString!)")
-            if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode == 200 {           // check for http errors
-                print("statusCode is \(httpStatus.statusCode)")
-                let defaults = UserDefaults.standard
-                defaults.set(httpStatus.allHeaderFields["Set-Cookie"]!, forKey: "cookie")
-                defaults.set(email, forKey: "email")
-                defaults.set(password, forKey: "password")
-                print(httpStatus.allHeaderFields["Set-Cookie"]!)
-                if let home = defaults.string(forKey: "homeName")
+            else
+            {
+                let request = ServerRequest(type: "GET", endpoint: "/home/status", postString: nil)
+                request.makeRequest(cookie: defaults.string(forKey: "cookie"))
+                
+                if(request.statusCode! == 200)
                 {
                     DispatchQueue.main.async(){
                         self.performSegue(withIdentifier: "homeExists", sender: nil)
@@ -59,7 +52,14 @@ class LoginViewController: UIViewController {
                 }
             }
         }
-        task.resume()
+        else
+        {
+            let jsonDecoder = JSONDecoder()
+            let status = try? jsonDecoder.decode(Status.self, from: request.data!)
+            DispatchQueue.main.async(execute: {
+                self.warningLabel.text = status!.ErrorMessage[0]
+            })
+        }
     }
     
     override func viewDidLoad() {
@@ -83,5 +83,10 @@ class LoginViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    
+    struct Status: Codable
+    {
+        var ErrorMessage: [String]
+    }
 
 }
