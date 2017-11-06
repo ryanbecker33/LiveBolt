@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreLocation
 
 class JoinHomeViewController: UIViewController {
 
@@ -26,6 +27,20 @@ class JoinHomeViewController: UIViewController {
             let defaults = UserDefaults.standard
             defaults.set(name, forKey: "homeName")
             defaults.set(password, forKey: "homePassword")
+            
+            let jsonDecoder = JSONDecoder()
+            print(request.responseString!)
+            let home = try? jsonDecoder.decode(Home.self, from: request.data!)
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            appDelegate.manager.requestLocation()
+            let coordinate = CLLocationCoordinate2D(latitude: home!.latitude, longitude: home!.longitude)
+            let region = CLCircularRegion(center: coordinate, radius: 30, identifier: "User Home")
+            region.notifyOnExit = true;
+            region.notifyOnEntry = true;
+            appDelegate.manager.startMonitoring(for: region)
+            defaults.set(coordinate.latitude, forKey: "homeLatitiude")
+            defaults.set(coordinate.longitude, forKey: "homeLongitude")
+            defaults.set(30, forKey: "homeRadius")
             DispatchQueue.main.async(execute: {
                 self.performSegue(withIdentifier: "homeJoined", sender: nil)
             })
@@ -65,6 +80,42 @@ class JoinHomeViewController: UIViewController {
     struct Status: Codable
     {
         var ErrorMessage: [String]
+    }
+    
+    struct Home: Codable
+    {
+        var name: String
+        var nickname: String
+        var users: [User]
+        let latitude: Double
+        let longitude: Double
+        
+        init()
+        {
+            name = ""
+            nickname = ""
+            users = [User]()
+            latitude = 0
+            longitude = 0
+        }
+        
+        struct User: Codable
+        {
+            var username: String
+            var email: String
+            var firstName: String
+            var lastName: String
+            var isHome: Bool
+            
+            init()
+            {
+                username = ""
+                email = ""
+                firstName = ""
+                lastName = ""
+                isHome = false
+            }
+        }
     }
 
 }

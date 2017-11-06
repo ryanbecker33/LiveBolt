@@ -7,14 +7,36 @@
 //
 
 import UIKit
+import CoreLocation
 
 class CreateHomeViewController: UIViewController {
 
+    @IBOutlet weak var nickNameLabel: UILabel!
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var passwordLabel: UILabel!
+    @IBOutlet weak var confirmPasswordLabel: UILabel!
+    @IBOutlet weak var centerHomeLabel: UILabel!
     @IBOutlet weak var errorMessageLabel: UILabel!
     @IBOutlet weak var homeNicknameTextField: UITextField!
     @IBOutlet weak var homeNameTextField: UITextField!
     @IBOutlet weak var homePasswordTextField: UITextField!
     @IBOutlet weak var homeConfirmPasswordTextField: UITextField!
+    @IBOutlet weak var createButton: UIButton!
+    @IBOutlet weak var nextButtonObject: UIButton!
+    @IBAction func nextButton(_ sender: Any) {
+        homeNicknameTextField.isHidden = true
+        homeNameTextField.isHidden = true
+        homePasswordTextField.isHidden = true
+        homeConfirmPasswordTextField.isHidden = true
+        nickNameLabel.isHidden = true
+        nameLabel.isHidden = true
+        passwordLabel.isHidden = true
+        confirmPasswordLabel.isHidden = true
+        nextButtonObject.isHidden = true
+        errorMessageLabel.isHidden = true
+        centerHomeLabel.isHidden = false
+        createButton.isHidden = false
+    }
     @IBAction func createHomeButton(_ sender: Any) {
         if(homePasswordTextField.text! != homeConfirmPasswordTextField.text!)
         {
@@ -22,7 +44,15 @@ class CreateHomeViewController: UIViewController {
             return
         }
         
-        let postString = "name=\(homeNameTextField.text!)&nickName=\(homeNicknameTextField.text!)&password=\(homePasswordTextField.text!)&confirmPassword=\(homeConfirmPasswordTextField.text!)"
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        appDelegate.manager.requestLocation()
+        guard let coordinate = appDelegate.manager.location?.coordinate else {return}
+        let region = CLCircularRegion(center: coordinate, radius: 30, identifier: "User Home")
+        region.notifyOnExit = true;
+        region.notifyOnEntry = true;
+        
+        
+        let postString = "name=\(homeNameTextField.text!)&nickName=\(homeNicknameTextField.text!)&latitude=\(Double(coordinate.latitude))&longitude=\(Double(coordinate.longitude))&password=\(homePasswordTextField.text!)&confirmPassword=\(homeConfirmPasswordTextField.text!)"
         let request = ServerRequest(type: "POST", endpoint: "/home/create", postString: postString)
         let home = homeNameTextField.text!
         let password = homePasswordTextField.text!
@@ -33,6 +63,11 @@ class CreateHomeViewController: UIViewController {
         {
             defaults.set(home, forKey: "homeName")
             defaults.set(password, forKey: "homePassword")
+            defaults.set(coordinate.latitude, forKey: "homeLatitiude")
+            defaults.set(coordinate.longitude, forKey: "homeLongitude")
+            defaults.set(30, forKey: "homeRadius")
+            print("Here")
+            appDelegate.manager.startMonitoring(for: region)
             DispatchQueue.main.async(){
                 self.performSegue(withIdentifier: "homeCreated", sender: self)
             }

@@ -14,6 +14,9 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBAction func loginButton(_ sender: Any) {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        appDelegate.manager.requestLocation()
+        
         let email = emailTextField.text!
         let password = passwordTextField.text!
         let postString = "email=\(email)&password=\(password)"

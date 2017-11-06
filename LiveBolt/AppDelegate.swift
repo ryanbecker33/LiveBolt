@@ -7,18 +7,51 @@
 //
 
 import UIKit
+import MapKit
 import CoreData
+import CoreLocation
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, MKMapViewDelegate, CLLocationManagerDelegate {
 
     var window: UIWindow?
-
+    var manager = CLLocationManager()
+    var mapView: MKMapView!
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        
+        //mapView.delegate = self
+        //mapView.showsUserLocation = true
+        //mapView.userTrackingMode = .follow
+        manager.delegate = self
+        // 1. status is not determined
+        let status = CLLocationManager.authorizationStatus()
+        if status == .notDetermined || status == .denied || status == .authorizedWhenInUse {
+            manager.requestAlwaysAuthorization()
+            manager.requestWhenInUseAuthorization()
+        }
+        
+        if CLLocationManager.authorizationStatus() == .authorizedAlways {
+            print("Good")
+        }
+        
         return true
     }
+    
+    func locationManager(_ manager: CLLocationManager, didVisit visit: CLVisit) {
+        // Do something with the visit.
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if let location = locations.first {
+            print("Found user's location: \(location)")
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print("Failed to find user's location: \(error.localizedDescription)")
+    }
+    
 
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
@@ -88,6 +121,65 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
     }
+    
+    func handleEvent(forRegion region: CLRegion!) {
+        // Show an alert if application is active
+       /* if UIApplication.shared.applicationState == .active {
+            guard let message = note(fromRegionIdentifier: region.identifier) else { return }
+            window?.rootViewController?.showAlert(withTitle: nil, message: message)
+        } else {
+            // Otherwise present a local notification
+            let notification = UILocalNotification()
+            notification.alertBody = note(fromRegionIdentifier: region.identifier)
+            notification.soundName = "Default"
+            UIApplication.shared.presentLocalNotificationNow(notification)
+        }*/
+    }
 
 }
+
+extension AppDelegate {
+    
+    func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
+        if region is CLCircularRegion {
+            let request = ServerRequest(type: "POST", endpoint: "/account/UpdateLocation", postString: "isHome=\(true)")
+            let defaults = UserDefaults.standard
+            request.makeRequest(cookie: defaults.string(forKey: "cookie"))
+            if(request.statusCode! == 200)
+            {
+                print("Good")
+            }
+            else
+            {
+                print("Bad")
+            }
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
+        if region is CLCircularRegion {
+            let request = ServerRequest(type: "POST", endpoint: "/account/UpdateLocation", postString: "isHome=\(false)")
+            let defaults = UserDefaults.standard
+            request.makeRequest(cookie: defaults.string(forKey: "cookie"))
+            if(request.statusCode! == 200)
+            {
+                print("Good")
+            }
+            else
+            {
+                print("Bad")
+            }
+        }
+    }
+}
+
+extension MKMapView {
+    func zoomToUserLocation() {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        guard let coordinate = appDelegate.manager.location?.coordinate else {return}
+        let region = MKCoordinateRegionMakeWithDistance(coordinate, 1000, 1000)
+        setRegion(region, animated: true)
+    }
+}
+
 

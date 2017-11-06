@@ -8,11 +8,60 @@
 
 import UIKit
 
-class HomeStatusViewController: UIViewController {
+class HomeStatusViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
-    @IBOutlet weak var usersLabel: UILabel!
+    var home : Home = Home()
+    
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return home.users.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath as IndexPath)
+        let user = home.users[indexPath.row]
+        cell.textLabel?.text = user.firstName + " " + user.lastName
+        if(user.isHome)
+        {
+            cell.imageView?.image = UIImage(named: "home.png")
+        }
+        else
+        {
+            cell.imageView?.image = UIImage(named: "away.png")
+        }
+        return cell
+    }
+    
+    @IBOutlet weak var userTable: UITableView!
     @IBOutlet weak var homeNameLabel: UILabel!
     @IBAction func homeSettingsButton(_ sender: Any) {
+        
+    }
+    @IBAction func refreshHomeButton(_ sender: Any) {
+        let request = ServerRequest(type: "GET", endpoint: "/home/status", postString: nil)
+        let defaults = UserDefaults.standard
+        request.makeRequest(cookie: defaults.string(forKey: "cookie"))
+        
+        if(request.statusCode! == 200)
+        {
+            let jsonDecoder = JSONDecoder()
+            print(request.responseString!)
+            let home = try? jsonDecoder.decode(Home.self, from: request.data!)
+            self.home = home!
+            DispatchQueue.main.async(){
+                self.homeNameLabel.text = home?.nickname
+            }
+            self.userTable.reloadData()
+        }
+        else
+        {
+            DispatchQueue.main.async(){
+                self.homeNameLabel.text = "Home request bad. Fix this"
+            }
+        }
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -30,6 +79,9 @@ class HomeStatusViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        userTable.dataSource = self
+        userTable.delegate = self
+        userTable.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
 
         let request = ServerRequest(type: "GET", endpoint: "/home/status", postString: nil)
         let defaults = UserDefaults.standard
@@ -38,13 +90,11 @@ class HomeStatusViewController: UIViewController {
         if(request.statusCode! == 200)
         {
             let jsonDecoder = JSONDecoder()
+            print(request.responseString!)
             let home = try? jsonDecoder.decode(Home.self, from: request.data!)
+            self.home = home!
             DispatchQueue.main.async(){
                 self.homeNameLabel.text = home?.nickname
-                for user in (home?.users)!
-                {
-                    self.usersLabel.text! += "\(user.firstName) \(user.lastName)\n"
-                }
             }
         }
         else
@@ -76,6 +126,17 @@ class HomeStatusViewController: UIViewController {
         var name: String
         var nickname: String
         var users: [User]
+        let latitude: Double
+        let longitude: Double
+        
+        init()
+        {
+            name = ""
+            nickname = ""
+            users = [User]()
+            latitude = 0
+            longitude = 0
+        }
         
         struct User: Codable
         {
@@ -83,6 +144,16 @@ class HomeStatusViewController: UIViewController {
             var email: String
             var firstName: String
             var lastName: String
+            var isHome: Bool
+            
+            init()
+            {
+                username = ""
+                email = ""
+                firstName = ""
+                lastName = ""
+                isHome = false
+            }
         }
     }
 }

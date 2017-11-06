@@ -24,6 +24,9 @@ class LoginNoHomeViewController: UIViewController {
                 defaults.set(nil, forKey: "email")
                 defaults.set(nil, forKey: "password")
                 defaults.set(nil, forKey: "cookie")
+                defaults.set(nil, forKey: "homeLatitiude")
+                defaults.set(nil, forKey: "homeLongitude")
+                defaults.set(nil, forKey: "homeRadius")
                 DispatchQueue.main.async(){
                     self.performSegue(withIdentifier: "logout", sender: nil)
                 }

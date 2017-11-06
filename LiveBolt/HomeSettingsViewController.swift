@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreLocation
 
 class HomeSettingsViewController: UIViewController {
 
@@ -19,11 +20,19 @@ class HomeSettingsViewController: UIViewController {
             
             if(request.statusCode! == 200)
             {
+                let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                for region in appDelegate.manager.monitoredRegions
+                {
+                    appDelegate.manager.stopMonitoring(for: region)
+                }
                 defaults.set(nil, forKey: "homeName")
                 defaults.set(nil, forKey: "homePassword")
                 defaults.set(nil, forKey: "email")
                 defaults.set(nil, forKey: "password")
                 defaults.set(nil, forKey: "cookie")
+                defaults.set(nil, forKey: "homeLatitiude")
+                defaults.set(nil, forKey: "homeLongitude")
+                defaults.set(nil, forKey: "homeRadius")
                 DispatchQueue.main.async(){
                     self.performSegue(withIdentifier: "homeDeleted", sender: nil)
                 }
@@ -51,8 +60,16 @@ class HomeSettingsViewController: UIViewController {
             
             if(request.statusCode! == 200)
             {
+                let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                for region in appDelegate.manager.monitoredRegions
+                {
+                    appDelegate.manager.stopMonitoring(for: region)
+                }
                 defaults.set(nil, forKey: "homeName")
                 defaults.set(nil, forKey: "homePassword")
+                defaults.set(nil, forKey: "homeLatitiude")
+                defaults.set(nil, forKey: "homeLongitude")
+                defaults.set(nil, forKey: "homeRadius")
                 DispatchQueue.main.async(){
                     self.performSegue(withIdentifier: "homeDeleted", sender: nil)
                 }

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="bcG-4r-5d7">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="bcG-4r-5d7">
     <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -493,8 +493,8 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="M7R-vJ-S99">
-                                <rect key="frame" x="144" y="448" width="126" height="39"/>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="M7R-vJ-S99">
+                                <rect key="frame" x="145" y="448" width="126" height="39"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                 <state key="normal" title="Create Home"/>
@@ -502,22 +502,60 @@
                                     <action selector="createHomeButton:" destination="Sq0-TO-nWA" eventType="touchUpInside" id="8uF-HH-C0L"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VQx-I4-rOb">
+                                <rect key="frame" x="181" y="495" width="52" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="23"/>
+                                <state key="normal" title="Next"/>
+                                <connections>
+                                    <action selector="nextButton:" destination="Sq0-TO-nWA" eventType="touchUpInside" id="wfE-3d-yPP"/>
+                                </connections>
+                            </button>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Please go to centermost point of home and press &quot;Create Home&quot;" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iZn-Xc-1bP">
+                                <rect key="frame" x="18" y="260" width="374" height="98"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.41960784309999999" blue="1" alpha="0.65049871579999996" colorSpace="calibratedRGB"/>
                         <viewLayoutGuide key="safeArea" id="ztO-ZB-pbj"/>
                     </view>
                     <connections>
+                        <outlet property="centerHomeLabel" destination="iZn-Xc-1bP" id="BhH-Gj-ZND"/>
+                        <outlet property="confirmPasswordLabel" destination="OLg-M7-8xv" id="L3R-O3-SwI"/>
+                        <outlet property="createButton" destination="M7R-vJ-S99" id="rgD-Ag-Bli"/>
                         <outlet property="errorMessageLabel" destination="z2p-fs-31c" id="Nsr-0Y-HGg"/>
                         <outlet property="homeConfirmPasswordTextField" destination="A48-MD-B4x" id="Oln-Xy-lS0"/>
                         <outlet property="homeNameTextField" destination="33g-QD-bKT" id="G5m-lc-9mK"/>
                         <outlet property="homeNicknameTextField" destination="paq-kb-6Yi" id="t2a-D8-lv8"/>
                         <outlet property="homePasswordTextField" destination="yOv-ad-6Jg" id="ba7-W1-XO2"/>
-                        <segue destination="CwS-7Z-8ar" kind="show" identifier="homeCreated" id="aOc-oy-hiJ"/>
+                        <outlet property="nameLabel" destination="MOc-im-gGF" id="UfK-n7-apT"/>
+                        <outlet property="nextButtonObject" destination="VQx-I4-rOb" id="CNK-Gh-TF7"/>
+                        <outlet property="nickNameLabel" destination="iZn-Xc-1bP" id="Lfh-aa-Yh1"/>
+                        <outlet property="passwordLabel" destination="Jmf-uE-GJ2" id="cQ7-YL-ZTd"/>
+                        <segue destination="CwS-7Z-8ar" kind="show" identifier="homeCreated" id="6yt-U3-ebM"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MWM-Sx-lAs" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1844.9275362318842" y="1305.9782608695652"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="Dhr-BO-hrO">
+            <objects>
+                <viewController id="Dj0-Ba-FFk" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="5Th-t0-Ao2">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" red="0.0" green="0.41960784309999999" blue="1" alpha="0.65049871579999996" colorSpace="calibratedRGB"/>
+                        <viewLayoutGuide key="safeArea" id="0j8-T1-fXE"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="mHl-en-dZI" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2662" y="1312"/>
         </scene>
         <!--Join Home View Controller-->
         <scene sceneID="g4N-FL-eAT">
@@ -593,7 +631,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="D05-Me-3DK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2757.971014492754" y="1309.2391304347827"/>
+            <point key="canvasLocation" x="3446" y="1306"/>
         </scene>
         <!--Home Status View Controller-->
         <scene sceneID="Oci-Dx-rWn">
@@ -626,25 +664,31 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="10" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bcu-Ve-OMq">
-                                <rect key="frame" x="39" y="187" width="336" height="341"/>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qe7-WX-GiP">
+                                <rect key="frame" x="17" y="20" width="53" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                                <state key="normal" title="Refresh"/>
+                                <connections>
+                                    <action selector="refreshHomeButton:" destination="CwS-7Z-8ar" eventType="touchUpInside" id="TvO-q9-IB1"/>
+                                </connections>
+                            </button>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="031-Oy-SLK">
+                                <rect key="frame" x="0.0" y="127" width="414" height="303"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </tableView>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.41960784309999999" blue="1" alpha="0.65049871579999996" colorSpace="calibratedRGB"/>
                         <viewLayoutGuide key="safeArea" id="vMj-wQ-sq0"/>
                     </view>
                     <connections>
                         <outlet property="homeNameLabel" destination="lI9-xm-7JS" id="wgU-to-64d"/>
-                        <outlet property="usersLabel" destination="Bcu-Ve-OMq" id="wgJ-Fz-Pdt"/>
+                        <outlet property="userTable" destination="031-Oy-SLK" id="p8l-J9-Uao"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SnB-Io-8hB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1565.5999999999999" y="2156.6716641679163"/>
+            <point key="canvasLocation" x="1565.217391304348" y="2156.25"/>
         </scene>
         <!--Home Settings View Controller-->
         <scene sceneID="mZN-eG-T2F">
@@ -705,7 +749,7 @@
         <image name="lightning.png" width="576" height="597"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="aOc-oy-hiJ"/>
+        <segue reference="6yt-U3-ebM"/>
         <segue reference="Jhn-Jx-KaH"/>
         <segue reference="MHg-bX-3Ua"/>
         <segue reference="fYS-ec-NwN"/>
