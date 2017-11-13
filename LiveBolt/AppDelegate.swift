@@ -32,7 +32,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MKMapViewDelegate, CLLoca
         }
         
         if CLLocationManager.authorizationStatus() == .authorizedAlways {
-            print("Good")
+            print("Authorized Location")
         }
         
         return true

@@ -34,6 +34,7 @@ class CreateHomeViewController: UIViewController {
         confirmPasswordLabel.isHidden = true
         nextButtonObject.isHidden = true
         errorMessageLabel.isHidden = true
+        nickNameLabel.isHidden = true
         centerHomeLabel.isHidden = false
         createButton.isHidden = false
     }
@@ -48,10 +49,6 @@ class CreateHomeViewController: UIViewController {
         appDelegate.manager.requestLocation()
         guard let coordinate = appDelegate.manager.location?.coordinate else {return}
         let region = CLCircularRegion(center: coordinate, radius: 30, identifier: "User Home")
-        region.notifyOnExit = true;
-        region.notifyOnEntry = true;
-        
-        
         let postString = "name=\(homeNameTextField.text!)&nickName=\(homeNicknameTextField.text!)&latitude=\(Double(coordinate.latitude))&longitude=\(Double(coordinate.longitude))&password=\(homePasswordTextField.text!)&confirmPassword=\(homeConfirmPasswordTextField.text!)"
         let request = ServerRequest(type: "POST", endpoint: "/home/create", postString: postString)
         let home = homeNameTextField.text!
@@ -67,6 +64,8 @@ class CreateHomeViewController: UIViewController {
             defaults.set(coordinate.longitude, forKey: "homeLongitude")
             defaults.set(30, forKey: "homeRadius")
             print("Here")
+            region.notifyOnExit = true;
+            region.notifyOnEntry = true;
             appDelegate.manager.startMonitoring(for: region)
             DispatchQueue.main.async(){
                 self.performSegue(withIdentifier: "homeCreated", sender: self)
@@ -85,7 +84,9 @@ class CreateHomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
+        tap.cancelsTouchesInView = false
+        self.view.addGestureRecognizer(tap)
         // Do any additional setup after loading the view.
     }
 

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreLocation
 
 class LoginViewController: UIViewController {
 
@@ -30,6 +31,7 @@ class LoginViewController: UIViewController {
             defaults.set(email, forKey: "email")
             defaults.set(password, forKey: "password")
             print(request.response!.allHeaderFields["Set-Cookie"]!)
+            
             if defaults.string(forKey: "homeName") != nil
             {
                 DispatchQueue.main.async(){
@@ -41,8 +43,22 @@ class LoginViewController: UIViewController {
                 let request = ServerRequest(type: "GET", endpoint: "/home/status", postString: nil)
                 request.makeRequest(cookie: defaults.string(forKey: "cookie"))
                 
+                
                 if(request.statusCode! == 200)
                 {
+                    let jsonDecoder = JSONDecoder()
+                    print(request.responseString!)
+                    let home = try? jsonDecoder.decode(Home.self, from: request.data!)
+                    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                    appDelegate.manager.requestLocation()
+                    let coordinate = CLLocationCoordinate2D(latitude: home!.latitude, longitude: home!.longitude)
+                    let region = CLCircularRegion(center: coordinate, radius: 30, identifier: "User Home")
+                    region.notifyOnExit = true;
+                    region.notifyOnEntry = true;
+                    appDelegate.manager.startMonitoring(for: region)
+                    defaults.set(coordinate.latitude, forKey: "homeLatitiude")
+                    defaults.set(coordinate.longitude, forKey: "homeLongitude")
+                    defaults.set(30, forKey: "homeRadius")
                     DispatchQueue.main.async(){
                         self.performSegue(withIdentifier: "homeExists", sender: nil)
                     }
@@ -67,7 +83,9 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
+        tap.cancelsTouchesInView = false
+        self.view.addGestureRecognizer(tap)
         // Do any additional setup after loading the view.
     }
 
@@ -75,6 +93,13 @@ class LoginViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        self.view.endEditing(true)
+        return true;
+    }
+    
+    
     
 
     /*
@@ -90,6 +115,74 @@ class LoginViewController: UIViewController {
     struct Status: Codable
     {
         var ErrorMessage: [String]
+    }
+    
+    struct Home: Codable
+    {
+        var name: String
+        var nickname: String
+        var users: [User]
+        let latitude: Double
+        let longitude: Double
+        var dlMs: [DLM]
+        var idMs: [IDM]
+        
+        init()
+        {
+            name = ""
+            nickname = ""
+            users = [User]()
+            latitude = 0
+            longitude = 0
+            dlMs = [DLM]()
+            idMs = [IDM]()
+        }
+        
+        struct User: Codable
+        {
+            var username: String
+            var email: String
+            var firstName: String
+            var lastName: String
+            var isHome: Bool
+            
+            init()
+            {
+                username = ""
+                email = ""
+                firstName = ""
+                lastName = ""
+                isHome = false
+            }
+        }
+        
+        struct IDM: Codable
+        {
+            var id: String
+            var isClosed: Bool
+            var nickname: String
+            
+            init()
+            {
+                id = ""
+                isClosed = false
+                nickname = ""
+            }
+        }
+        
+        struct DLM: Codable
+        {
+            var id: String
+            var isLocked: Bool
+            var nickname: String
+            
+            init()
+            {
+                id = ""
+                isLocked = false
+                nickname = ""
+            }
+        }
     }
 
 }

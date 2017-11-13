@@ -33,7 +33,7 @@ class LoginNoHomeViewController: UIViewController {
             }
             else
             {
-                //bad logout
+               print("Bad")
             }
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .default) { (alert: UIAlertAction!) -> Void in

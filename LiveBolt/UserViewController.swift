@@ -1,65 +1,55 @@
 //
-//  JoinHomeViewController.swift
+//  UserViewController.swift
 //  LiveBolt
 //
-//  Created by Ryan Becker on 10/24/17.
+//  Created by Ryan Becker on 11/13/17.
 //  Copyright © 2017 Becker. All rights reserved.
 //
 
 import UIKit
-import CoreLocation
 
-class JoinHomeViewController: UIViewController {
+class UserViewController: UIViewController {
+    
+    var userID = -1
 
-    @IBOutlet weak var warningLabel: UILabel!
-    @IBOutlet weak var homeNameTextField: UITextField!
-    @IBOutlet weak var passwordTextField: UITextField!
-    @IBAction func joinHomeButton(_ sender: Any) {
-        let name = homeNameTextField.text!
-        let password = passwordTextField.text!
-        let postString = "name=\(name)&password=\(password)"
-        let request = ServerRequest(type: "POST", endpoint: "/home/join", postString: postString)
+    @IBOutlet weak var firstNameLabel: UILabel!
+    @IBOutlet weak var lastNameLabel: UILabel!
+    @IBOutlet weak var usernameLabel: UILabel!
+    @IBOutlet weak var isHomeLabel: UILabel!
+    @IBOutlet weak var editButton: UIButton!
+    @IBOutlet weak var submitButton: UIButton!
+    @IBOutlet weak var cancelButton: UIButton!
+    @IBAction func editButtonAction(_ sender: Any) {
+        
+    }
+    @IBAction func submitButtonAction(_ sender: Any) {
+    }
+    @IBAction func cancelButtonAction(_ sender: Any) {
+    }
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        let request = ServerRequest(type: "GET", endpoint: "/home/status", postString: nil)
         let defaults = UserDefaults.standard
         request.makeRequest(cookie: defaults.string(forKey: "cookie"))
         
         if(request.statusCode! == 200)
         {
-            let defaults = UserDefaults.standard
-            defaults.set(name, forKey: "homeName")
-            defaults.set(password, forKey: "homePassword")
-            
             let jsonDecoder = JSONDecoder()
             print(request.responseString!)
             let home = try? jsonDecoder.decode(Home.self, from: request.data!)
-            let appDelegate = UIApplication.shared.delegate as! AppDelegate
-            appDelegate.manager.requestLocation()
-            let coordinate = CLLocationCoordinate2D(latitude: home!.latitude, longitude: home!.longitude)
-            let region = CLCircularRegion(center: coordinate, radius: 30, identifier: "User Home")
-            region.notifyOnExit = true;
-            region.notifyOnEntry = true;
-            appDelegate.manager.startMonitoring(for: region)
-            defaults.set(coordinate.latitude, forKey: "homeLatitiude")
-            defaults.set(coordinate.longitude, forKey: "homeLongitude")
-            defaults.set(30, forKey: "homeRadius")
-            DispatchQueue.main.async(execute: {
-                self.performSegue(withIdentifier: "homeJoined", sender: nil)
-            })
+            DispatchQueue.main.async(){
+                self.firstNameLabel.text = home?.users[self.userID].firstName
+                self.lastNameLabel.text = home?.users[self.userID].lastName
+                self.usernameLabel.text = home?.users[self.userID].username
+                self.isHomeLabel.text = "Status: \(((home?.users[self.userID].isHome)! ? "Home" : "Not Home"))"
+            }
         }
         else
         {
-            let jsonDecoder = JSONDecoder()
-            let status = try? jsonDecoder.decode(Status.self, from: request.data!)
-            DispatchQueue.main.async(execute: {
-                self.warningLabel.text = status!.ErrorMessage[0]
-            })
+            DispatchQueue.main.async(){
+                self.firstNameLabel.text = "User request bad. Fix this"
+            }
         }
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
-        tap.cancelsTouchesInView = false
-        self.view.addGestureRecognizer(tap)
         // Do any additional setup after loading the view.
     }
 
@@ -78,11 +68,6 @@ class JoinHomeViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
-    
-    struct Status: Codable
-    {
-        var ErrorMessage: [String]
-    }
     
     struct Home: Codable
     {
