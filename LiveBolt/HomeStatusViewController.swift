@@ -14,6 +14,8 @@ class HomeStatusViewController: UIViewController, UITableViewDataSource, UITable
     var moduleID : Int = -1
     var isIDM = false
     var userID = -1
+    var timer : Timer!
+
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         if(tableView == dlmTable)
@@ -59,43 +61,6 @@ class HomeStatusViewController: UIViewController, UITableViewDataSource, UITable
         
         return [editAction]
     }
-    /*
-    internal func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if (editingStyle == UITableViewCellEditingStyle.delete) {
-            // handle delete (by removing the data from your array and updating the tableview)
-            if(tableView == idmTable)
-            {
-                let idm = self.home.idMs[indexPath.row]
-                //self.home.idMs.remove(at: indexPath.row)
-                let alert = UIAlertController(title: idm.nickname, message: "Are you sure you want to remove the IDM?", preferredStyle: .alert)
-                let clearAction = UIAlertAction(title: "Remove", style: .destructive) { (alert: UIAlertAction!) -> Void in
-    
-                }
-                let cancelAction = UIAlertAction(title: "Cancel", style: .default) { (alert: UIAlertAction!) -> Void in
-                    //print("You pressed Cancel")
-                }
-                alert.addAction(clearAction)
-                alert.addAction(cancelAction)
-                present(alert, animated: true, completion:nil)
-                
-            }
-            else if(tableView == dlmTable)
-            {
-                let dlm = self.home.dlMs[indexPath.row]
-                //self.home.dlMs.remove(at: indexPath.row)
-                let alert = UIAlertController(title: dlm.nickname, message: "Are you sure you want to remove the DLM?", preferredStyle: .alert)
-                let clearAction = UIAlertAction(title: "Remove", style: .destructive) { (alert: UIAlertAction!) -> Void in
-                    
-                }
-                let cancelAction = UIAlertAction(title: "Cancel", style: .default) { (alert: UIAlertAction!) -> Void in
-                    //print("You pressed Cancel")
-                }
-                alert.addAction(clearAction)
-                alert.addAction(cancelAction)
-                present(alert, animated: true, completion:nil)
-            }
-        }
-    }*/
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
@@ -157,49 +122,6 @@ class HomeStatusViewController: UIViewController, UITableViewDataSource, UITable
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        /*
-        if(tableView == dlmTable)
-        {
-            let action = self.home.dlMs[indexPath.row].isLocked ? "Unlock" : "Lock"
-            let alert = UIAlertController(title: self.home.dlMs[indexPath.row].nickname, message: "Are you sure you want to \(action) the deadbolt?", preferredStyle: .alert)
-            let clearAction = UIAlertAction(title: action, style: .destructive) { (alert: UIAlertAction!) -> Void in
-                let dlm = self.home.dlMs[indexPath.row]
-                let request = ServerRequest(type: "POST", endpoint: "/home/setDLMState", postString: "dlmID=\(dlm.id)&locked=\(!dlm.isLocked)")
-                let defaults = UserDefaults.standard
-                request.makeRequest(cookie: defaults.string(forKey: "cookie"))
-                tableView.deselectRow(at: indexPath, animated: true)
-                if(request.statusCode! == 200)
-                {
-                    print("Locked State Change Accepted")
-                }
-                else
-                {
-                    print("Locked State Change Failed")
-                }
-            }
-            let cancelAction = UIAlertAction(title: "Cancel", style: .default) { (alert: UIAlertAction!) -> Void in
-                //print("You pressed Cancel")
-            }
-            
-            alert.addAction(clearAction)
-            alert.addAction(cancelAction)
-            present(alert, animated: true, completion:nil)
-            
-            let dlm = home.dlMs[indexPath.row]
-            let request = ServerRequest(type: "POST", endpoint: "/home/setDLMState", postString: "dlmID=\(dlm.id)&locked=\(!dlm.isLocked)")
-            let defaults = UserDefaults.standard
-            request.makeRequest(cookie: defaults.string(forKey: "cookie"))
-            tableView.deselectRow(at: indexPath, animated: true)
-            if(request.statusCode! == 200)
-            {
-                print("Locked State Change Accepted")
-            }
-            else
-            {
-                print("Locked State Change Failed")
-            }
-        }
- */
         if(tableView == userTable)
         {
             self.userID = indexPath.row
@@ -234,7 +156,8 @@ class HomeStatusViewController: UIViewController, UITableViewDataSource, UITable
         
     }
     
-    @IBAction func refreshHomeButton(_ sender: Any) {
+    @objc func refresh()
+    {
         let request = ServerRequest(type: "GET", endpoint: "/home/status", postString: nil)
         let defaults = UserDefaults.standard
         request.makeRequest(cookie: defaults.string(forKey: "cookie"))
@@ -258,6 +181,11 @@ class HomeStatusViewController: UIViewController, UITableViewDataSource, UITable
                 self.homeNameLabel.text = "Home request bad. Fix this"
             }
         }
+        print("Refreshed\n")
+    }
+    
+    @IBAction func refreshHomeButton(_ sender: Any) {
+        refresh()
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -268,13 +196,15 @@ class HomeStatusViewController: UIViewController, UITableViewDataSource, UITable
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        
+        timer.invalidate()
         // Show the navigation bar on other view controllers
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        timer = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(refresh), userInfo: nil, repeats: true)
+        
         userTable.dataSource = self
         userTable.delegate = self
         userTable.register(UITableViewCell.self, forCellReuseIdentifier: "userCell")
