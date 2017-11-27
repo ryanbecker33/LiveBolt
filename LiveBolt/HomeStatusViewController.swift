@@ -162,7 +162,7 @@ class HomeStatusViewController: UIViewController, UITableViewDataSource, UITable
         let defaults = UserDefaults.standard
         request.makeRequest(cookie: defaults.string(forKey: "cookie"))
         
-        if(request.statusCode! == 200)
+        if(request.statusCode! == 200 && request.responseString != nil)
         {
             let jsonDecoder = JSONDecoder()
             print(request.responseString!)

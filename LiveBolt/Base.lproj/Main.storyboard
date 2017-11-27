@@ -13,7 +13,7 @@
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="SplashScreenViewController" customModule="LiveBolt" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                    <view key="view" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -25,7 +25,7 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="TXr-sI-648" kind="show" id="V9K-oU-73B"/>
+                                    <segue destination="TXr-sI-648" kind="show" animates="NO" id="V9K-oU-73B"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="LiveBolt" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qE5-ME-SCN">
@@ -43,7 +43,7 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="hq5-Io-zKd" kind="show" id="mDs-PF-2tF"/>
+                                    <segue destination="hq5-Io-zKd" kind="show" animates="NO" id="mDs-PF-2tF"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -63,7 +63,7 @@
         <scene sceneID="qkA-Xf-qdN">
             <objects>
                 <viewController id="hq5-Io-zKd" customClass="SignUpViewController" customModule="LiveBolt" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="lzK-TO-cyd">
+                    <view key="view" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="lzK-TO-cyd">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -182,7 +182,7 @@
                         <outlet property="reEnterPasswordLabel" destination="KY6-7v-3no" id="YMY-2B-rO5"/>
                         <outlet property="titleLabel" destination="dF3-Rh-iSl" id="ysE-8I-QVt"/>
                         <outlet property="warningLabel" destination="7vu-r1-ENP" id="CFX-Fj-BJz"/>
-                        <segue destination="TXr-sI-648" kind="show" identifier="registerSucceed" id="MHg-bX-3Ua"/>
+                        <segue destination="TXr-sI-648" kind="show" identifier="registerSucceed" animates="NO" id="MHg-bX-3Ua"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Di0-fj-JLB" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -261,7 +261,7 @@
         <scene sceneID="t8P-0h-wA2">
             <objects>
                 <viewController id="bcG-4r-5d7" customClass="CheckLoginViewController" customModule="LiveBolt" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="sXf-r7-9jP">
+                    <view key="view" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="sXf-r7-9jP">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -281,20 +281,20 @@
                         <viewLayoutGuide key="safeArea" id="jHn-9Z-xt1"/>
                     </view>
                     <connections>
-                        <segue destination="CwS-7Z-8ar" kind="show" identifier="loginAndHome" id="sLp-w4-ltm"/>
-                        <segue destination="7yg-Hi-x1h" kind="show" identifier="noLogin" id="lsW-Td-fOP"/>
-                        <segue destination="eSu-f8-zdD" kind="show" identifier="loginAndNoHome" id="SqE-At-2Qf"/>
+                        <segue destination="CwS-7Z-8ar" kind="presentation" identifier="loginAndHome" modalTransitionStyle="crossDissolve" id="sLp-w4-ltm"/>
+                        <segue destination="7yg-Hi-x1h" kind="show" identifier="noLogin" animates="NO" id="lsW-Td-fOP"/>
+                        <segue destination="eSu-f8-zdD" kind="show" identifier="loginAndNoHome" animates="NO" id="SqE-At-2Qf"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iN5-Rx-nZM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="116" y="1307"/>
+            <point key="canvasLocation" x="115.94202898550725" y="1306.7934782608697"/>
         </scene>
         <!--Login View Controller-->
         <scene sceneID="b58-S3-Ctg">
             <objects>
                 <viewController id="TXr-sI-648" customClass="LoginViewController" customModule="LiveBolt" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="ez9-Va-xZe">
+                    <view key="view" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="ez9-Va-xZe">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -359,8 +359,8 @@
                         <outlet property="emailTextField" destination="ibJ-XW-yWV" id="e3e-dW-mgO"/>
                         <outlet property="passwordTextField" destination="Lij-x8-Jvp" id="yEM-s7-A1o"/>
                         <outlet property="warningLabel" destination="4Ec-3g-jWp" id="Gnx-FX-IuZ"/>
-                        <segue destination="CwS-7Z-8ar" kind="show" identifier="homeExists" id="3kk-v0-cGL"/>
-                        <segue destination="eSu-f8-zdD" kind="show" identifier="loginSucceed" id="Jhn-Jx-KaH"/>
+                        <segue destination="CwS-7Z-8ar" kind="presentation" identifier="homeExists" modalTransitionStyle="crossDissolve" id="3kk-v0-cGL"/>
+                        <segue destination="eSu-f8-zdD" kind="show" identifier="loginSucceed" animates="NO" id="Jhn-Jx-KaH"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NNe-iI-fdx" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -371,7 +371,7 @@
         <scene sceneID="VP7-Ar-c8p">
             <objects>
                 <viewController id="eSu-f8-zdD" customClass="LoginNoHomeViewController" customModule="LiveBolt" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="XTC-Jf-oMC">
+                    <view key="view" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="XTC-Jf-oMC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -380,7 +380,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Join LiveBolt Home"/>
                                 <connections>
-                                    <segue destination="0YN-pQ-pDn" kind="show" id="oHh-zb-Q3Z"/>
+                                    <segue destination="0YN-pQ-pDn" kind="show" animates="NO" id="oHh-zb-Q3Z"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aKO-Tg-FP8">
@@ -415,7 +415,7 @@
         <scene sceneID="Ekk-3y-ezc">
             <objects>
                 <viewController id="Sq0-TO-nWA" customClass="CreateHomeViewController" customModule="LiveBolt" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="HFv-jm-Ole">
+                    <view key="view" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="HFv-jm-Ole">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -535,33 +535,18 @@
                         <outlet property="nextButtonObject" destination="VQx-I4-rOb" id="CNK-Gh-TF7"/>
                         <outlet property="nickNameLabel" destination="iZn-Xc-1bP" id="Lfh-aa-Yh1"/>
                         <outlet property="passwordLabel" destination="Jmf-uE-GJ2" id="cQ7-YL-ZTd"/>
-                        <segue destination="CwS-7Z-8ar" kind="show" identifier="homeCreated" id="6yt-U3-ebM"/>
+                        <segue destination="CwS-7Z-8ar" kind="presentation" identifier="homeCreated" modalTransitionStyle="crossDissolve" id="6yt-U3-ebM"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MWM-Sx-lAs" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1844.9275362318842" y="1305.9782608695652"/>
         </scene>
-        <!--View Controller-->
-        <scene sceneID="Dhr-BO-hrO">
-            <objects>
-                <viewController id="Dj0-Ba-FFk" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="5Th-t0-Ao2">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="0.0" green="0.41960784309999999" blue="1" alpha="0.65049871579999996" colorSpace="calibratedRGB"/>
-                        <viewLayoutGuide key="safeArea" id="0j8-T1-fXE"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="mHl-en-dZI" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2662" y="1312"/>
-        </scene>
         <!--Join Home View Controller-->
         <scene sceneID="g4N-FL-eAT">
             <objects>
                 <viewController id="0YN-pQ-pDn" customClass="JoinHomeViewController" customModule="LiveBolt" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="Bxq-OK-fcT">
+                    <view key="view" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="Bxq-OK-fcT">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -626,7 +611,7 @@
                         <outlet property="homeNameTextField" destination="4yv-rv-db4" id="JSO-6U-66N"/>
                         <outlet property="passwordTextField" destination="uhM-Zm-lhR" id="WZn-eN-kGw"/>
                         <outlet property="warningLabel" destination="jXX-Yy-4Ed" id="hTm-MW-l6c"/>
-                        <segue destination="CwS-7Z-8ar" kind="show" identifier="homeJoined" id="q5D-9J-jvN"/>
+                        <segue destination="CwS-7Z-8ar" kind="presentation" identifier="homeJoined" modalTransitionStyle="crossDissolve" id="q5D-9J-jvN"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="D05-Me-3DK" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -637,7 +622,7 @@
         <scene sceneID="Oci-Dx-rWn">
             <objects>
                 <viewController id="CwS-7Z-8ar" customClass="HomeStatusViewController" customModule="LiveBolt" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="j3l-Yb-qRs">
+                    <view key="view" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="j3l-Yb-qRs">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -654,7 +639,7 @@
                                 <state key="normal" title="Settings"/>
                                 <connections>
                                     <action selector="homeSettingsButton:" destination="CwS-7Z-8ar" eventType="touchUpInside" id="ySX-9h-ix3"/>
-                                    <segue destination="yYv-Cs-wzj" kind="show" id="swD-cm-zN0"/>
+                                    <segue destination="yYv-Cs-wzj" kind="show" animates="NO" id="swD-cm-zN0"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Name:  " textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lI9-xm-7JS">
@@ -713,8 +698,8 @@
                         <outlet property="homeNameLabel" destination="lI9-xm-7JS" id="wgU-to-64d"/>
                         <outlet property="idmTable" destination="nIr-Cq-Zwz" id="Zu6-Qq-IcR"/>
                         <outlet property="userTable" destination="031-Oy-SLK" id="p8l-J9-Uao"/>
-                        <segue destination="3rY-G6-Fgo" kind="show" identifier="moduleSelected" id="cKh-Up-zNS"/>
-                        <segue destination="UrW-lM-igp" kind="show" identifier="userSelected" id="KrC-WE-0Xk"/>
+                        <segue destination="3rY-G6-Fgo" kind="presentation" identifier="moduleSelected" modalTransitionStyle="partialCurl" id="cKh-Up-zNS"/>
+                        <segue destination="UrW-lM-igp" kind="show" identifier="userSelected" animates="NO" id="KrC-WE-0Xk"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SnB-Io-8hB" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -725,7 +710,7 @@
         <scene sceneID="FT2-ZE-nhM">
             <objects>
                 <viewController id="3rY-G6-Fgo" customClass="ModuleViewController" customModule="LiveBolt" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="124-5b-K1j">
+                    <view key="view" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="124-5b-K1j">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -796,6 +781,14 @@
                                     <action selector="editButtonAction:" destination="3rY-G6-Fgo" eventType="touchUpInside" id="9Yr-QA-4HN"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eqE-cV-UhZ">
+                                <rect key="frame" x="26" y="64" width="34" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Back"/>
+                                <connections>
+                                    <segue destination="CwS-7Z-8ar" kind="presentation" modalTransitionStyle="flipHorizontal" id="wne-vU-PWd"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.41960784309999999" blue="1" alpha="0.65049871579999996" colorSpace="calibratedRGB"/>
                         <viewLayoutGuide key="safeArea" id="ynd-f4-NZP"/>
@@ -820,7 +813,7 @@
         <scene sceneID="AlA-tD-cSL">
             <objects>
                 <viewController id="UrW-lM-igp" customClass="UserViewController" customModule="LiveBolt" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="acd-Xq-02Y">
+                    <view key="view" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="acd-Xq-02Y">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -876,6 +869,14 @@
                                     <action selector="submitButtonAction:" destination="UrW-lM-igp" eventType="touchUpInside" id="tOh-P5-aRY"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OdN-Ab-1AQ">
+                                <rect key="frame" x="26" y="70" width="34" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Back"/>
+                                <connections>
+                                    <segue destination="CwS-7Z-8ar" kind="show" animates="NO" action="showDetailViewController:sender:" id="t4j-5v-SAg"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.41960784309999999" blue="1" alpha="0.65049871579999996" colorSpace="calibratedRGB"/>
                         <viewLayoutGuide key="safeArea" id="UM1-C9-ozv"/>
@@ -898,7 +899,7 @@
         <scene sceneID="mZN-eG-T2F">
             <objects>
                 <viewController id="yYv-Cs-wzj" customClass="HomeSettingsViewController" customModule="LiveBolt" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="3Cz-Js-B1y">
+                    <view key="view" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="3Cz-Js-B1y">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -918,12 +919,20 @@
                                     <action selector="logoutButton:" destination="yYv-Cs-wzj" eventType="touchUpInside" id="rg9-9f-r78"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EWl-jf-zoW">
+                                <rect key="frame" x="26" y="56" width="34" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Back"/>
+                                <connections>
+                                    <segue destination="CwS-7Z-8ar" kind="show" animates="NO" id="A69-La-Olw"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.41960784309999999" blue="1" alpha="0.65049871579999996" colorSpace="calibratedRGB"/>
                         <viewLayoutGuide key="safeArea" id="JDQ-GM-Dib"/>
                     </view>
                     <connections>
-                        <segue destination="bcG-4r-5d7" kind="show" identifier="homeDeleted" id="lPD-DU-waM"/>
+                        <segue destination="bcG-4r-5d7" kind="presentation" identifier="homeDeleted" id="lPD-DU-waM"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WPd-ZW-e1f" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -953,9 +962,9 @@
         <image name="lightning.png" width="576" height="597"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="6yt-U3-ebM"/>
-        <segue reference="Jhn-Jx-KaH"/>
-        <segue reference="MHg-bX-3Ua"/>
+        <segue reference="sLp-w4-ltm"/>
+        <segue reference="SqE-At-2Qf"/>
+        <segue reference="V9K-oU-73B"/>
         <segue reference="lPD-DU-waM"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
