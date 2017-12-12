@@ -27,7 +27,19 @@ class SignUpViewController: UIViewController {
             self.warningLabel.text! = "Passwords do not match."
             return
         }
-        let postString = "firstName=\(firstNameTextField.text!)&lastName=\(lastNameTextField.text!)&email=\(emailTextField.text!)&password=\(passwordTextField.text!)&confirmPassword=\(confirmPasswordTextField.text!)"
+        if(firstNameTextField.text! == "" || lastNameTextField.text! == "" || emailTextField.text! == "" ||
+            passwordTextField.text! == "" || confirmPasswordTextField.text! == "")
+        {
+            self.warningLabel.text = "Please complete form."
+            return
+        }
+        let defaults = UserDefaults.standard
+        var deviceToken = defaults.string(forKey: "deviceToken")
+        if(deviceToken == nil)
+        {
+            deviceToken = "0"
+        }
+        let postString = "firstName=\(firstNameTextField.text!)&lastName=\(lastNameTextField.text!)&email=\(emailTextField.text!)&password=\(passwordTextField.text!)&confirmPassword=\(confirmPasswordTextField.text!)&deviceToken=\(deviceToken!)"
         let request = ServerRequest(type: "POST", endpoint: "/account/register", postString: postString)
         request.makeRequest(cookie: nil)
         

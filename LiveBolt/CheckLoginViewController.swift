@@ -12,8 +12,8 @@ class CheckLoginViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        UserDefaults.standard.removePersistentDomain(forName: Bundle.main.bundleIdentifier!)
-        UserDefaults.standard.synchronize()
+        //UserDefaults.standard.removePersistentDomain(forName: Bundle.main.bundleIdentifier!)
+        //UserDefaults.standard.synchronize()
         let defaults = UserDefaults.standard
         if defaults.string(forKey: "email") != nil {
             let request = ServerRequest(type: "GET", endpoint: "/home/status", postString: nil)

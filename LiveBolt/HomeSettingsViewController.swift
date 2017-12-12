@@ -11,6 +11,46 @@ import CoreLocation
 
 class HomeSettingsViewController: UIViewController {
 
+    @IBOutlet weak var homeNickNameTextField: UITextField!
+    @IBOutlet weak var deleteHomeButtonProperties: UIButton!
+    @IBOutlet weak var editHomeNameButtonProperties: UIButton!
+    @IBOutlet weak var logoutButtonProperties: UIButton!
+    @IBOutlet weak var submitButtonProperties: UIButton!
+    @IBAction func editHomeName(_ sender: Any) {
+        deleteHomeButtonProperties.isHidden = true;
+        editHomeNameButtonProperties.isHidden = true;
+        logoutButtonProperties.isHidden = true;
+        homeNickNameTextField.isHidden = false;
+        submitButtonProperties.isHidden = false;
+    }
+    
+    @IBAction func submitHomeName(_ sender: Any) {
+        if(homeNickNameTextField.text! == "")
+        {
+            deleteHomeButtonProperties.isHidden = false;
+            editHomeNameButtonProperties.isHidden = false;
+            logoutButtonProperties.isHidden = false;
+            homeNickNameTextField.isHidden = true;
+            submitButtonProperties.isHidden = true;
+            return
+        }
+        let request = ServerRequest(type: "POST", endpoint: "/home/editNickname", postString: "nickname=\(homeNickNameTextField.text!)")
+        let defaults = UserDefaults.standard
+        request.makeRequest(cookie: defaults.string(forKey: "cookie"))
+        if(request.statusCode! == 200)
+        {
+            print("Home Nickname Change Accepted")
+        }
+        else
+        {
+            print("Home Nickname Change Failed")
+        }
+        deleteHomeButtonProperties.isHidden = false;
+        editHomeNameButtonProperties.isHidden = false;
+        logoutButtonProperties.isHidden = false;
+        homeNickNameTextField.isHidden = true;
+        submitButtonProperties.isHidden = true;
+    }
     @IBAction func logoutButton(_ sender: Any) {
         let alert = UIAlertController(title: "Logout", message: "Are you sure you want to logout?", preferredStyle: .alert)
         let clearAction = UIAlertAction(title: "Logout", style: .destructive) { (alert: UIAlertAction!) -> Void in
@@ -33,6 +73,7 @@ class HomeSettingsViewController: UIViewController {
                 defaults.set(nil, forKey: "homeLatitiude")
                 defaults.set(nil, forKey: "homeLongitude")
                 defaults.set(nil, forKey: "homeRadius")
+                defaults.set(nil, forKey: "deviceToken")
                 DispatchQueue.main.async(){
                     self.performSegue(withIdentifier: "homeDeleted", sender: nil)
                 }
@@ -70,6 +111,7 @@ class HomeSettingsViewController: UIViewController {
                 defaults.set(nil, forKey: "homeLatitiude")
                 defaults.set(nil, forKey: "homeLongitude")
                 defaults.set(nil, forKey: "homeRadius")
+                defaults.set(nil, forKey: "deviceToken")
                 DispatchQueue.main.async(){
                     self.performSegue(withIdentifier: "homeDeleted", sender: nil)
                 }

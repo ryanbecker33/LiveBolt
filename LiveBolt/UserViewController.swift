@@ -12,6 +12,8 @@ class UserViewController: UIViewController {
     
     var userID = -1
 
+    @IBOutlet weak var firstNameTextField: UITextField!
+    @IBOutlet weak var lastNameTextField: UITextField!
     @IBOutlet weak var firstNameLabel: UILabel!
     @IBOutlet weak var lastNameLabel: UILabel!
     @IBOutlet weak var usernameLabel: UILabel!
@@ -20,14 +22,60 @@ class UserViewController: UIViewController {
     @IBOutlet weak var submitButton: UIButton!
     @IBOutlet weak var cancelButton: UIButton!
     @IBAction func editButtonAction(_ sender: Any) {
-        
+        firstNameTextField.text = firstNameLabel.text;
+        lastNameTextField.text = lastNameLabel.text;
+        firstNameLabel.isHidden = true;
+        lastNameLabel.isHidden = true;
+        editButton.isHidden = true;
+        cancelButton.isHidden = false;
+        submitButton.isHidden = false;
+        firstNameTextField.isHidden = false;
+        lastNameTextField.isHidden = false;
     }
+    
+    private func lockUI()
+    {
+        firstNameLabel.isHidden = false;
+        lastNameLabel.isHidden = false;
+        editButton.isHidden = false;
+        cancelButton.isHidden = true;
+        submitButton.isHidden = true;
+        firstNameTextField.isHidden = true;
+        lastNameTextField.isHidden = true;
+    }
+    
     @IBAction func submitButtonAction(_ sender: Any) {
+        if(firstNameTextField.text! == "" || lastNameTextField.text! == "")
+        {
+            lockUI()
+            refreshUI()
+            return
+        }
+        let request = ServerRequest(type: "POST", endpoint: "/account/editName", postString: "firstName=\(firstNameTextField.text!)&lastname=\(lastNameTextField.text!)")
+        let defaults = UserDefaults.standard
+        request.makeRequest(cookie: defaults.string(forKey: "cookie"))
+        if(request.statusCode! == 200)
+        {
+            print("User name Change Accepted")
+        }
+        else
+        {
+            print("User name Change Failed")
+        }
+        lockUI()
+        refreshUI()
     }
     @IBAction func cancelButtonAction(_ sender: Any) {
+        lockUI()
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+        refreshUI()
+        // Do any additional setup after loading the view.
+    }
+    
+    private func refreshUI()
+    {
         let request = ServerRequest(type: "GET", endpoint: "/home/status", postString: nil)
         let defaults = UserDefaults.standard
         request.makeRequest(cookie: defaults.string(forKey: "cookie"))
@@ -35,7 +83,6 @@ class UserViewController: UIViewController {
         if(request.statusCode! == 200)
         {
             let jsonDecoder = JSONDecoder()
-            print(request.responseString!)
             let home = try? jsonDecoder.decode(Home.self, from: request.data!)
             DispatchQueue.main.async(){
                 self.firstNameLabel.text = home?.users[self.userID].firstName
@@ -50,7 +97,6 @@ class UserViewController: UIViewController {
                 self.firstNameLabel.text = "User request bad. Fix this"
             }
         }
-        // Do any additional setup after loading the view.
     }
 
     override func didReceiveMemoryWarning() {

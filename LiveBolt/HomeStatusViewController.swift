@@ -148,12 +148,14 @@ class HomeStatusViewController: UIViewController, UITableViewDataSource, UITable
         }
     }
     
+    
+    
     @IBOutlet weak var userTable: UITableView!
     @IBOutlet weak var dlmTable: UITableView!
     @IBOutlet weak var idmTable: UITableView!
     @IBOutlet weak var homeNameLabel: UILabel!
     @IBAction func homeSettingsButton(_ sender: Any) {
-        
+  
     }
     
     @objc func refresh()
@@ -165,7 +167,6 @@ class HomeStatusViewController: UIViewController, UITableViewDataSource, UITable
         if(request.statusCode! == 200 && request.responseString != nil)
         {
             let jsonDecoder = JSONDecoder()
-            print(request.responseString!)
             let home = try? jsonDecoder.decode(Home.self, from: request.data!)
             self.home = home!
             DispatchQueue.main.async(){
@@ -177,9 +178,7 @@ class HomeStatusViewController: UIViewController, UITableViewDataSource, UITable
         }
         else
         {
-            DispatchQueue.main.async(){
-                self.homeNameLabel.text = "Home request bad. Fix this"
-            }
+
         }
         print("Refreshed\n")
     }
@@ -225,7 +224,6 @@ class HomeStatusViewController: UIViewController, UITableViewDataSource, UITable
         if(request.statusCode! == 200)
         {
             let jsonDecoder = JSONDecoder()
-            print(request.responseString!)
             let home = try? jsonDecoder.decode(Home.self, from: request.data!)
             self.home = home!
             DispatchQueue.main.async(){

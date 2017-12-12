@@ -24,6 +24,12 @@ class ModuleViewController: UIViewController {
     @IBOutlet weak var statusLabel: UILabel!
     @IBOutlet weak var lockButton: UIButton!
     @IBAction func cancelButtonAction(_ sender: Any) {
+        lockUI()
+        updateUI()
+    }
+    
+    private func lockUI()
+    {
         nameLabel.isHidden = false
         lockButton.isHidden = false
         deleteButton.isHidden = false
@@ -32,8 +38,85 @@ class ModuleViewController: UIViewController {
         cancelButton.isHidden = true
         nameTextField.isHidden = true
     }
-    @IBAction func submitButtonAction(_ sender: Any) {
+    
+    
+    @IBAction func deleteModuleAction(_ sender: Any) {
+        var endpoint = ""
+        if(isIdm)
+        {
+            endpoint = "/idm/remove"
+        }
+        else
+        {
+            endpoint = "/dlm/remove"
+        }
         
+        let alert = UIAlertController(title: "Delete Module", message: "Are you sure you want to delete this module?", preferredStyle: .alert)
+        let clearAction = UIAlertAction(title: "Delete", style: .destructive) { (alert: UIAlertAction!) -> Void in
+            let request = ServerRequest(type: "POST", endpoint: endpoint, postString: "guid=\(self.isIdm ? self.home.idMs[self.id].id : self.home.dlMs[self.id].id)")
+            let defaults = UserDefaults.standard
+            request.makeRequest(cookie: defaults.string(forKey: "cookie"))
+            
+            if(request.statusCode! == 200)
+            {
+                
+                DispatchQueue.main.async(){
+                    self.performSegue(withIdentifier: "moduleRemoved", sender: nil)
+                }
+            }
+            else
+            {
+                //bad remove
+            }
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .default) { (alert: UIAlertAction!) -> Void in
+            //print("You pressed Cancel")
+        }
+        
+        alert.addAction(clearAction)
+        alert.addAction(cancelAction)
+        present(alert, animated: true, completion:nil)
+    }
+    
+    @IBAction func submitButtonAction(_ sender: Any) {
+        if(nameTextField.text! == "")
+        {
+            lockUI()
+            updateUI()
+            return
+        }
+        if(self.isIdm)
+        {
+            let idm = self.home.idMs[self.id]
+            let request = ServerRequest(type: "POST", endpoint: "/idm/editNickname", postString: "guid=\(idm.id)&nickname=\(nameTextField.text!)")
+            let defaults = UserDefaults.standard
+            request.makeRequest(cookie: defaults.string(forKey: "cookie"))
+            if(request.statusCode! == 200)
+            {
+                print("IDM Nickname Change Accepted")
+            }
+            else
+            {
+                print("IDM Nickname Change Failed")
+            }
+        }
+        else
+        {
+            let dlm = self.home.dlMs[self.id]
+            let request = ServerRequest(type: "POST", endpoint: "/dlm/editNickname", postString: "guid=\(dlm.id)&nickname=\(nameTextField.text!)")
+            let defaults = UserDefaults.standard
+            request.makeRequest(cookie: defaults.string(forKey: "cookie"))
+            if(request.statusCode! == 200)
+            {
+                print("DLM Nickname Change Accepted")
+            }
+            else
+            {
+                print("DLM Nickname Change Failed")
+            }
+        }
+        lockUI()
+        updateUI()
     }
     
     @IBAction func editButtonAction(_ sender: Any) {
@@ -64,6 +147,7 @@ class ModuleViewController: UIViewController {
             {
                 print("Locked State Change Failed")
             }
+            self.updateUI()
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .default) { (alert: UIAlertAction!) -> Void in
             //print("You pressed Cancel")
@@ -74,9 +158,8 @@ class ModuleViewController: UIViewController {
         present(alert, animated: true, completion:nil)
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
+    private func updateUI()
+    {
         let request = ServerRequest(type: "GET", endpoint: "/home/status", postString: nil)
         let defaults = UserDefaults.standard
         request.makeRequest(cookie: defaults.string(forKey: "cookie"))
@@ -84,23 +167,22 @@ class ModuleViewController: UIViewController {
         if(request.statusCode! == 200)
         {
             let jsonDecoder = JSONDecoder()
-            print(request.responseString!)
-            let home = try? jsonDecoder.decode(Home.self, from: request.data!)
+            home = try! jsonDecoder.decode(HomeStatusViewController.Home.self, from: request.data!)
             DispatchQueue.main.async(){
                 if(self.isIdm)
                 {
-                    self.nameLabel.text = home?.idMs[self.id].nickname
+                    self.nameLabel.text = self.home.idMs[self.id].nickname
                     self.typeLabel.text = "Type: IDM"
-                    self.statusLabel.text = "Status: \(((home?.idMs[self.id].isClosed)! ? "Closed" : "Open"))"
+                    self.statusLabel.text = "Status: \(((self.home.idMs[self.id].isClosed) ? "Closed" : "Open"))"
                     self.lockButton.isHidden = true
                 }
                 else
                 {
-                    self.nameLabel.text = home?.dlMs[self.id].nickname
+                    self.nameLabel.text = self.home.dlMs[self.id].nickname
                     self.typeLabel.text = "Type: DLM"
-                    self.statusLabel.text = "Status: \(((home?.dlMs[self.id].isLocked)! ? "Locked" : "Unlocked"))"
+                    self.statusLabel.text = "Status: \(((self.home.dlMs[self.id].isLocked) ? "Locked" : "Unlocked"))"
                     self.lockButton.isHidden = false
-                    self.lockButton.setTitle((home?.dlMs[self.id].isLocked)! ? "Unlock Door" : "Lock Door", for: .normal)
+                    self.lockButton.setTitle((self.home.dlMs[self.id].isLocked) ? "Unlock Door" : "Lock Door", for: .normal)
                 }
             }
         }
@@ -110,6 +192,13 @@ class ModuleViewController: UIViewController {
                 self.nameLabel.text = "Module request bad. Fix this"
             }
         }
+    }
+    
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        updateUI()
         // Do any additional setup after loading the view.
     }
 

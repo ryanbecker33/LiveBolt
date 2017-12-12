@@ -7,17 +7,18 @@
 //
 
 import UIKit
-import MapKit
 import CoreData
 import CoreLocation
 import UserNotifications
 
+fileprivate let viewActionIdentifier = "VIEW_IDENTIFIER"
+fileprivate let mlCategoryIdentifier = "ML_CATEGORY"
+
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, MKMapViewDelegate, CLLocationManagerDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate {
 
     var window: UIWindow?
     var manager = CLLocationManager()
-    var mapView: MKMapView!
     
     func registerForPushNotifications() {
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) {
@@ -25,15 +26,37 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MKMapViewDelegate, CLLoca
             print("Permission granted: \(granted)")
             
             guard granted else { return }
+            
             self.getNotificationSettings()
         }
+    }
+    
+    func registerCategories()
+    {
+        let viewAction = UNNotificationAction(identifier: "Yes",
+                                              title: "Yes",
+                                              options: [])
+        
+        let cancel = UNNotificationAction(identifier:  "No",
+                                          title: "No",
+                                          options: [])
+        
+        // 2
+        let mlCategory = UNNotificationCategory(identifier: mlCategoryIdentifier,
+                                                actions: [viewAction, cancel],
+                                                intentIdentifiers: [],
+                                                options: [])
+        // 3
+        UNUserNotificationCenter.current().setNotificationCategories([mlCategory])
     }
     
     func getNotificationSettings() {
         UNUserNotificationCenter.current().getNotificationSettings { (settings) in
             print("Notification settings: \(settings)")
             guard settings.authorizationStatus == .authorized else { return }
-            UIApplication.shared.registerForRemoteNotifications()
+            DispatchQueue.main.async(execute: {
+                UIApplication.shared.registerForRemoteNotifications()
+            })
         }
     }
     
@@ -45,6 +68,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MKMapViewDelegate, CLLoca
         
         let token = tokenParts.joined()
         print("Device Token: \(token)")
+        let defaults = UserDefaults.standard
+        defaults.set(token, forKey: "deviceToken")
     }
     
     func application(_ application: UIApplication,
@@ -70,6 +95,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MKMapViewDelegate, CLLoca
         }
         
         registerForPushNotifications()
+        UNUserNotificationCenter.current().delegate = self
+        registerCategories()
         
         return true
     }
@@ -209,13 +236,44 @@ extension AppDelegate {
     }
 }
 
-extension MKMapView {
-    func zoomToUserLocation() {
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        guard let coordinate = appDelegate.manager.location?.coordinate else {return}
-        let region = MKCoordinateRegionMakeWithDistance(coordinate, 1000, 1000)
-        setRegion(region, animated: true)
+extension AppDelegate: UNUserNotificationCenterDelegate {
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                didReceive response: UNNotificationResponse,
+                                withCompletionHandler completionHandler: @escaping () -> Void) {
+
+        switch response.actionIdentifier {
+            case "Yes":
+                let request = ServerRequest(type: "POST", endpoint: "/home/MLResponse", postString: "lockDoors=\(true)")
+                let defaults = UserDefaults.standard
+                request.makeRequest(cookie: defaults.string(forKey: "cookie"))
+                if(request.statusCode! == 200)
+                {
+                    print("Good alert")
+                }
+                else
+                {
+                    print("Bad alert")
+            }
+            default:
+                let request = ServerRequest(type: "POST", endpoint: "/home/MLResponse", postString: "lockDoors=\(false)")
+                let defaults = UserDefaults.standard
+                request.makeRequest(cookie: defaults.string(forKey: "cookie"))
+                if(request.statusCode! == 200)
+                {
+                    print("Good alert")
+                }
+                else
+                {
+                    print("Bad alert")
+            }
+        }
+        
+        
+        // 4
+        completionHandler()
     }
 }
+
 
 

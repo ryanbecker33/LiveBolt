@@ -17,6 +17,11 @@ class JoinHomeViewController: UIViewController {
     @IBAction func joinHomeButton(_ sender: Any) {
         let name = homeNameTextField.text!
         let password = passwordTextField.text!
+        if(name == "" || password == "")
+        {
+            self.warningLabel.text = "Name or Password was blank."
+            return
+        }
         let postString = "name=\(name)&password=\(password)"
         let request = ServerRequest(type: "POST", endpoint: "/home/join", postString: postString)
         let defaults = UserDefaults.standard
@@ -29,7 +34,6 @@ class JoinHomeViewController: UIViewController {
             defaults.set(password, forKey: "homePassword")
             
             let jsonDecoder = JSONDecoder()
-            print(request.responseString!)
             let home = try? jsonDecoder.decode(Home.self, from: request.data!)
             let appDelegate = UIApplication.shared.delegate as! AppDelegate
             appDelegate.manager.requestLocation()

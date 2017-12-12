@@ -50,6 +50,12 @@ class CreateHomeViewController: UIViewController {
         guard let coordinate = appDelegate.manager.location?.coordinate else {return}
         let region = CLCircularRegion(center: coordinate, radius: 30, identifier: "User Home")
         let postString = "name=\(homeNameTextField.text!)&nickName=\(homeNicknameTextField.text!)&latitude=\(Double(coordinate.latitude))&longitude=\(Double(coordinate.longitude))&password=\(homePasswordTextField.text!)&confirmPassword=\(homeConfirmPasswordTextField.text!)"
+        if(homeNameTextField.text! == "" || homeNicknameTextField.text! == "" || homePasswordTextField.text! == "" ||
+            homeConfirmPasswordTextField.text! == "")
+        {
+            self.errorMessageLabel.text = "Please complete form."
+            return
+        }
         let request = ServerRequest(type: "POST", endpoint: "/home/create", postString: postString)
         let home = homeNameTextField.text!
         let password = homePasswordTextField.text!

@@ -61,9 +61,10 @@ class ServerRequest{
         }
         task.resume()
         //BAD BAD BAD BAD BAD BAD BAD
-        while(self.statusCode == nil)
+        while(self.responseString == nil)
         {
             
         }
+        print(self.responseString!)
     }
 }

@@ -20,6 +20,11 @@ class LoginViewController: UIViewController {
         
         let email = emailTextField.text!
         let password = passwordTextField.text!
+        if(email == "" || password == "")
+        {
+             self.warningLabel.text = "Email or Password was blank."
+            return
+        }
         let postString = "email=\(email)&password=\(password)"
         let request = ServerRequest(type: "POST", endpoint: "/account/login", postString: postString)
         request.makeRequest(cookie: nil)
@@ -31,6 +36,20 @@ class LoginViewController: UIViewController {
             defaults.set(email, forKey: "email")
             defaults.set(password, forKey: "password")
             print(request.response!.allHeaderFields["Set-Cookie"]!)
+            let token = defaults.string(forKey: "deviceToken")
+            if(token != nil)
+            {
+                let request = ServerRequest(type: "POST", endpoint: "/Account/UpdateDeviceToken", postString: "DeviceToken=\(token!)")
+                request.makeRequest(cookie: defaults.string(forKey: "cookie"))
+                if(request.statusCode! == 200)
+                {
+                    print("Device Token Update")
+                }
+                else
+                {
+                    print("Device Update Failed")
+                }
+            }
             
             if defaults.string(forKey: "homeName") != nil
             {
@@ -47,7 +66,6 @@ class LoginViewController: UIViewController {
                 if(request.statusCode! == 200)
                 {
                     let jsonDecoder = JSONDecoder()
-                    print(request.responseString!)
                     let home = try? jsonDecoder.decode(Home.self, from: request.data!)
                     let appDelegate = UIApplication.shared.delegate as! AppDelegate
                     appDelegate.manager.requestLocation()
